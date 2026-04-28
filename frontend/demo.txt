@@ -1,0 +1,79 @@
+
+function App() {
+  return (
+    <div className="min-h-screen bg-gray-100 font-sans" >
+      {/* 1. HEADER / NAVBAR */}
+      <nav className="bg-white border-b px-6 py-4 flex items-center justify-between shadow-sm">
+        <div className="flex items-center space-x-4">
+          <div className="bg-blue-600 p-2 rounded text-white font-bold text-xl">Brand</div>
+          <input 
+            type="text" 
+            placeholder="Search" 
+            className="hidden md:block border rounded-l-md px-4 py-2 w-96 bg-gray-50 focus:outline-blue-500"
+          />
+          <button className="hidden md:block bg-blue-600 text-white px-6 py-2 rounded-r-md">Search</button>
+        </div>
+
+        <div className="flex space-x-6 text-gray-500 text-sm">
+          <span>Profile</span>
+          <span>Message</span>
+          <span>Orders</span>
+          <span>My cart</span>
+        </div>
+      </nav>
+
+      {/* 2. MAIN CONTENT AREA */}
+
+      <div className="max-w-7xl mx-auto mt-6 px-4 flex flex-col md:flex-row gap-6">
+        {/* LEFT SIDEBAR - Categories */}
+        <aside className="w-full md:w-1/4 bg-white border rounded-lg p-4 h-fit">
+          <ul className="space-y-4 text-gray-600">
+            <li className="font-semibold text-blue-600 bg-blue-50 p-2 rounded">Automobiles</li>
+            <li>Clothes and wear</li>
+            <li>Home interiors</li>
+            <li>Computer and tech</li>
+            <li>Tools, equipments</li>
+            <li>Sports and outdoor</li>
+          </ul>
+        </aside>
+
+        {/* RIGHT CONTENT - Hero & Products */}
+        <main className="flex-1">
+          {/* HERO BANNER */}
+          
+          <div className="bg-[#E3F0FF] rounded-lg p-10 flex justify-between items-center relative overflow-hidden h-64 mb-8">
+            <div>
+              
+              <p className="text-lg">Latest trending</p>
+              <h1 className="text-4xl font-bold mt-2">Electronic items</h1>
+              <button className="mt-6 bg-white px-6 py-2 rounded shadow font-semibold">Learn more</button>
+            </div>
+            
+            {/* Image placeholder for headphones */}
+            <div className="w-40 h-40 bg-gray-300 rounded-full opacity-20 hidden lg:block"></div>
+                <img src={HeroImage} alt="Latest Headphones" className="w-48 h-auto" />
+
+          </div>
+
+          {/* PRODUCT SECTION */}
+          <section className="bg-white border rounded-lg p-6">
+
+
+            <h2 className="text-xl font-bold mb-4">Deals and offers</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {['Smart watches', 'Laptops', 'GoPro cameras', 'Headphones'].map((item) => (
+                <div key={item} className="border p-4 rounded text-center hover:shadow-md cursor-pointer transition">
+                  <div className="bg-gray-100 h-32 rounded mb-2"></div>
+                  <p className="font-medium">{item}</p>
+                  <span className="text-red-500 bg-red-50 px-2 py-1 rounded-full text-xs">-25%</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export default App;
