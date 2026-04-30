@@ -1,10 +1,60 @@
 import React from 'react';
-import { 
-  BrandLogo, ProfileIcon, MsgIcon, OrdersIcon, CartIcon, 
-  FacebookIcon, TwitterIcon, LinkedInIcon, InstaIcon, YoutubeIcon,
-  AppStore, GooglePlay, FlagUSA, HeadsetImg, TechBagImg, 
-  ShirtImg, SuitImg, KettleImg 
-} from './assets'; // Ensure these match your import paths
+import HeroImage from './assets/thumb-figma 1.png'
+import BrandLogo from './assets/brand_logo.png'
+import ProfileIcon from './assets/ProfileIcon.png'
+import MsgIcon from './assets/MsgIcon.png'
+import OrdersIcon from './assets/OrdersIcon.png'
+import CartIcon from './assets/CartIcon.png'
+import User from './assets/user.png'
+import Banner from './assets/Banner.png'
+import Camera from './assets/camera.png'
+import Watch from './assets/watch.png'
+import Headphone from './assets/headphone.png'
+import Laptop from './assets/laptop.png'
+import Mobile from './assets/mobile.png'
+import ChairImg from './assets/chair.png';
+import SofaImg from './assets/sofa.png';
+import DishImg from './assets/dishes.png';
+import PotImg from './assets/pot.png';
+import MixerImg from './assets/mixer.png';
+import BlenderImg from './assets/blender.png';
+import ApplianceImg from './assets/appliance.jpg';
+import PlantImg from './assets/plant.png';
+import BannerImg from './assets/home-banner.jpg';
+import InquiryBanner from './assets/inquiry-bg.png';
+import ShirtImg from './assets/shirt.png'
+import JacketImg from './assets/jacket.jpg'
+import SuitImg from './assets/suit.png'
+import WalletImg from './assets/wallet.png'
+import BagImg from './assets/bag.png'
+import ShortsImg from './assets/shorts.png'
+import HeadsetImg from './assets/headset.png'
+import TechBagImg from './assets/bag.png'
+import KettleImg from './assets/kettle.png'
+import Service1 from './assets/service1.png'
+import Service2 from './assets/service2.png'
+import Service3 from './assets/service3.png'
+import Service4 from './assets/service4.png'
+import SearchIcon from './assets/search-icon.png'
+import BoxIcon from './assets/box-icon.png'
+import SendIcon from './assets/send-icon.png'
+import ShieldIcon from './assets/shield-icon.png'
+import FlagUAE from './assets/uae.png'
+import FlagAUS from './assets/aus.png'
+import FlagUSA from './assets/usa.png'
+import FlagRUS from './assets/rus.png'
+import FlagITA from './assets/ita.png'
+import FlagDNK from './assets/dnk.png'
+import FlagFRA from './assets/fra.png'
+import FlagCHN from './assets/chn.png'
+import FlagGBR from './assets/gbr.png'
+import FacebookIcon from './assets/fb.png'
+import TwitterIcon from './assets/twitter.png'
+import LinkedInIcon from './assets/linkedin.png'
+import InstaIcon from './assets/insta.png'
+import YoutubeIcon from './assets/youtube.png'
+import AppStore from './assets/appstore.png'
+import GooglePlay from './assets/googleplay.png'
 
 const ProductList = () => {
   // Mock data based on the provided list-view image
