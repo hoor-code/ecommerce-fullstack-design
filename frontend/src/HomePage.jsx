@@ -137,7 +137,7 @@ const HomePage = () => {
               <img className='h-12 w-12 rounded-full object-cover' src={User} alt="User" />
               <p className='font-medium text-gray-800 leading-tight text-sm'>Hi, user <br /> let’s get started</p>
             </div>
-<Link to="/join">
+<Link to="/login">
         <button className='w-full bg-blue-600 rounded-md text-white py-2 text-sm font-semibold cursor-pointer hover:bg-blue-700 mb-2'>
           Join Now
         </button>
