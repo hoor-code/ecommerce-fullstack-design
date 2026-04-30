@@ -316,8 +316,6 @@ const HomePage = () => {
      <div className='my-10 mx-4 md:mx-10'>
   <h2 className='text-2xl font-bold mb-5'>Our extra services</h2>
   <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-
-    {/* Service Card 1 */}
     <div className='bg-white border border-gray-200 rounded-md overflow-hidden relative'>
       <img src={Service1} className='w-full h-32 object-cover brightness-75' />
       <div className='p-5 pr-12'><p className='font-medium text-sm'>Source from <br /> Industry Hubs</p></div>
@@ -325,8 +323,6 @@ const HomePage = () => {
         <img src={SearchIcon} className='w-5 h-5' />
       </div>
     </div>
-
-    {/* Service Card 2 */}
     <div className='bg-white border border-gray-200 rounded-md overflow-hidden relative'>
       <img src={Service2} className='w-full h-32 object-cover brightness-75' />
       <div className='p-5 pr-12'><p className='font-medium text-sm'>Customize Your <br /> Products</p></div>
@@ -334,8 +330,6 @@ const HomePage = () => {
         <img src={BoxIcon} className='w-5 h-5' />
       </div>
     </div>
-
-    {/* Service Card 3 */}
     <div className='bg-white border border-gray-200 rounded-md overflow-hidden relative'>
       <img src={Service3} className='w-full h-32 object-cover brightness-75' />
       <div className='p-5 pr-12'><p className='font-medium text-sm'>Fast, reliable shipping <br /> by ocean or air</p></div>
@@ -343,8 +337,6 @@ const HomePage = () => {
         <img src={SendIcon} className='w-5 h-5' />
       </div>
     </div>
-
-    {/* Service Card 4 */}
     <div className='bg-white border border-gray-200 rounded-md overflow-hidden relative'>
       <img src={Service4} className='w-full h-32 object-cover brightness-75' />
       <div className='p-5 pr-12'><p className='font-medium text-sm'>Product monitoring <br /> and inspection</p></div>
@@ -428,9 +420,7 @@ const HomePage = () => {
       </div>
      <footer className='bg-white pt-10 border-t border-gray-200'>
   <div className='mx-4 md:mx-10 flex flex-col lg:flex-row justify-between gap-10 pb-10'>
-    
-    {/* Brand Info */}
-    <div className='w-full lg:max-w-[280px]'>
+        <div className='w-full lg:max-w-[280px]'>
       <div className='flex items-center gap-2 mb-4'>
         <img src={BrandLogo} className='w-8 h-8' alt="Logo" />
         <span className='text-blue-500 font-bold text-xl'>Brand</span>
@@ -447,7 +437,6 @@ const HomePage = () => {
       </div>
     </div>
 
-    {/* Links Columns */}
     <div className='flex-1 grid grid-cols-2 md:grid-cols-4 gap-8'>
       <div>
         <h4 className='font-bold text-gray-900 mb-3'>About</h4>
@@ -487,7 +476,6 @@ const HomePage = () => {
       </div>
     </div>
 
-    {/* App Downloads */}
     <div className='w-full lg:w-40'>
       <h4 className='font-bold text-gray-900 mb-3'>Get app</h4>
       <div className='flex lg:flex-col gap-2'>

@@ -57,7 +57,6 @@ import AppStore from './assets/appstore.png'
 import GooglePlay from './assets/googleplay.png'
 
 const ProductList = () => {
-  // Mock data based on the provided list-view image
   const products = [
     { id: 1, name: "Canon Camera EOS 2000, Black 10x zoom", price: "998.00", oldPrice: "1128.00", rating: 4.5, orders: 154, shipping: "Free Shipping", desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", img: ShirtImg },
     { id: 2, name: "GoPro HERO6 4K Action Camera - Black", price: "998.00", oldPrice: null, rating: 4.8, orders: 154, shipping: "Free Shipping", desc: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.", img: TechBagImg },
@@ -69,13 +68,11 @@ const ProductList = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans">
-      {/* Breadcrumbs */}
       <div className="px-10 py-4 flex items-center gap-2 text-sm text-gray-500">
         <span>Home</span> <span>&gt;</span> <span>Clothings</span> <span>&gt;</span> <span>Men's wear</span> <span>&gt;</span> <span className="font-medium text-gray-800">Summer clothing</span>
       </div>
 
       <div className="px-10 flex gap-6 pb-10">
-        {/* Sidebar Filters */}
         <aside className="w-60 flex-shrink-0">
           <div className="border-t border-gray-300 py-3">
             <h4 className="font-bold text-sm mb-2">Category</h4>
@@ -117,9 +114,7 @@ const ProductList = () => {
           </div>
         </aside>
 
-        {/* Main Product Section */}
         <main className="flex-1">
-          {/* Top Bar */}
           <div className="bg-white border border-gray-200 rounded-md p-4 mb-4 flex justify-between items-center text-sm">
             <p>12,911 items in <span className="font-bold">Mobile accessory</span></p>
             <div className="flex items-center gap-4">
@@ -135,7 +130,6 @@ const ProductList = () => {
             </div>
           </div>
 
-          {/* Product Items */}
           <div className="flex flex-col gap-3">
             {products.map(product => (
               <div key={product.id} className="bg-white border border-gray-200 rounded-md p-4 flex gap-6 hover:shadow-md transition-shadow">
