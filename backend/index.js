@@ -1,13 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config(); // This line loads the variables from .env
+const path = require('path'); // Added this
+require('dotenv').config();
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// --- THE MISSING PIECE FOR IMAGES ---
+// This tells index.js how to serve your photos
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 const Product = require('./models/Product');
 
@@ -20,21 +25,21 @@ app.get('/api/products', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-// Pull the URI from your .env file
-const mongoURI = process.env.MONGO_URI;
 
 // Connect to MongoDB
-mongoose.connect(mongoURI)
-  .then(() => console.log("✅ MongoDB Connected!"))
-  .catch(err => console.log("❌ MongoDB Connection Error:", err));
+const mongoURI = process.env.MONGO_URI;
+// Update this section in your index.js
+mongoose.connect(mongoURI, {
+  tlsAllowInvalidCertificates: true, // This bypasses the SSL/TLS certificate error
+})
+.then(() => console.log("✅ MongoDB Connected!"))
+.catch(err => console.log("❌ MongoDB Connection Error:", err));
 
 app.get('/', (req, res) => {
-  res.send("Server is running!");
+  res.send("Server is running and assets are linked!");
 });
 
-// Pull the Port from .env or default to 5000
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // This is the "Button" that changes the URL
+import { Link } from 'react-router-dom';
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -17,14 +17,17 @@ function ProductList() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
         {products.map((product) => (
           <div key={product._id} style={{ border: '1px solid #ddd', padding: '15px' }}>
-            <img src={product.image} alt={product.name} style={{ width: '100%' }} />
+            {/* Added full backend URL to image src */}
+          <img 
+  src={`http://localhost:5000${product.image}`} 
+  alt={product.name} 
+  style={{ width: '100%', height: 'auto' }} 
+/>
             <h3>{product.name}</h3>
             <p>${product.price}</p>
             
-            {/* THIS IS THE ROUTE BUTTON */}
-            {/* It sends the user to /product/6637... based on the ID from the database */}
             <Link 
-              to={`/product/${product._id}`} 
+              to={`/product-details/${product._id}`} 
               style={{ 
                 display: 'block', 
                 textAlign: 'center', 
@@ -32,7 +35,8 @@ function ProductList() {
                 color: 'white', 
                 padding: '10px', 
                 textDecoration: 'none',
-                marginTop: '10px'
+                marginTop: '10px',
+                borderRadius: '4px'
               }}
             >
               View Details
