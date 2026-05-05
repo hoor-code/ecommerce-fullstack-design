@@ -90,7 +90,7 @@ const HomePage = () => {
           <Link to="/messages" className='h-12 w-12 md:h-16 md:w-16 cursor-pointer'>
             <img src={MsgIcon} alt="Messages" className='h-full w-full object-contain' />
           </Link>
-          <Link to="/orders" className='h-12 w-12 md:h-16 md:w-16 cursor-pointer'>
+          <Link to="/products" className='h-12 w-12 md:h-16 md:w-16 cursor-pointer'>
             <img src={OrdersIcon} alt="Orders" className='h-full w-full object-contain' />
           </Link>
           <Link to="/cart" className='h-12 w-12 md:h-16 md:w-16 cursor-pointer'>
