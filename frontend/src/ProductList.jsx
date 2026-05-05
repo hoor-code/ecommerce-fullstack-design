@@ -21,7 +21,7 @@ function ProductList() {
           <img 
   src={`http://localhost:5000${product.image}`} 
   alt={product.name} 
-  style={{ width: '100%', height: 'auto' }} 
+  style={{ width: '100%', height: '200px', objectFit: 'contain' }} 
 />
             <h3>{product.name}</h3>
             <p>${product.price}</p>
