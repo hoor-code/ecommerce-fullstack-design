@@ -2,13 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-const jwt = require('jsonwebtoken'); // Fixed: Added missing import
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const app = express();
 
 // --- Middleware ---
-app.use(cors());
+// Note: When you deploy, replace '*' with your actual Vercel URL for better security
+app.use(cors()); 
 app.use(express.json());
 
 // --- Static Assets ---
@@ -16,7 +17,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // --- Import Models ---
 const Product = require('./models/Product');
-const User = require('./models/User'); // Fixed: Added missing import
+const User = require('./models/User');
 
 // --- API Routes ---
 
@@ -25,7 +26,6 @@ app.post('/api/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
     
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: "User already exists" });
 
@@ -61,13 +61,11 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// --- 3. POST a new product ---
+// 3. POST a new product (Admin Functionality)
 app.post('/api/products', async (req, res) => {
   try {
-    // Destructure data from the frontend request
     const { name, price, description, image, category } = req.body;
 
-    // Create a new document in the products collection
     const newProduct = new Product({ 
       name, 
       price, 
@@ -77,13 +75,14 @@ app.post('/api/products', async (req, res) => {
     });
 
     const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct); // 201 means "Created"
+    res.status(201).json(savedProduct);
   } catch (err) {
     console.error("Error creating product:", err);
     res.status(400).json({ message: "Failed to create product. Check all required fields." });
   }
 });
-// 3. GET all products
+
+// 4. GET all products
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();
@@ -93,7 +92,7 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-// 4. GET single product by ID
+// 5. GET single product by ID
 app.get('/api/products/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -104,9 +103,9 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
-// Base route
+// Base route for health check
 app.get('/', (req, res) => {
-  res.send("Server is running!");
+  res.send("Server is running correctly!");
 });
 
 // --- Database Connection ---
@@ -116,7 +115,8 @@ mongoose.connect(mongoURI, { tlsAllowInvalidCertificates: true })
 .catch(err => console.log("❌ MongoDB Connection Error:", err));
 
 // --- Server Listener ---
+// Render and other services require the host to be '0.0.0.0'
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
