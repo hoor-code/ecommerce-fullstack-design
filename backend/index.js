@@ -8,25 +8,10 @@ require('dotenv').config();
 const app = express();
 
 // --------------------
-// Safety Checks
-// --------------------
-if (!process.env.JWT_SECRET) {
-  throw new Error("❌ JWT_SECRET is not defined in .env");
-}
-
-if (!process.env.MONGO_URI) {
-  throw new Error("❌ MONGO_URI is not defined in .env");
-}
-
-// --------------------
 // Middleware
 // --------------------
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// --------------------
-// CORS (Production Safe)
-// --------------------
+// Allow only specific origins (update after Vercel deploy)
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
@@ -35,19 +20,16 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow Postman / server-to-server
-    if (!origin) return callback(null, true);
-
-    // allow known frontend
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS Not Allowed"));
     }
-
-    // TEMP: allow all for deployment stability
-    return callback(null, true);
   },
   credentials: true
 }));
+
+app.use(express.json());
 
 // --------------------
 // Static Assets
@@ -190,15 +172,14 @@ app.get('/api/products/:id', async (req, res) => {
 // MongoDB Connection
 // --------------------
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("✅ MongoDB Connected!");
+  .then(() => console.log("✅ MongoDB Connected!"))
+  .catch(err => console.log("❌ MongoDB Error:", err));
 
-    const PORT = process.env.PORT || 5000;
+// --------------------
+// Start Server
+// --------------------
+const PORT = process.env.PORT || 5000;
 
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.log("❌ MongoDB Error:", err);
-  });
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
