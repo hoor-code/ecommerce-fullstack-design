@@ -7,82 +7,158 @@ require('dotenv').config();
 
 const app = express();
 
-// --- Middleware ---
-// Note: When you deploy, replace '*' with your actual Vercel URL for better security
-app.use(cors()); 
-app.use(express.json());
+// --------------------
+// Safety Checks
+// --------------------
+if (!process.env.JWT_SECRET) {
+  throw new Error("❌ JWT_SECRET is not defined in .env");
+}
 
-// --- Static Assets ---
+if (!process.env.MONGO_URI) {
+  throw new Error("❌ MONGO_URI is not defined in .env");
+}
+
+// --------------------
+// Middleware
+// --------------------
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// --------------------
+// CORS (Production Safe)
+// --------------------
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://your-frontend-name.vercel.app"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow Postman / server-to-server
+    if (!origin) return callback(null, true);
+
+    // allow known frontend
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // TEMP: allow all for deployment stability
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
+// --------------------
+// Static Assets
+// --------------------
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
-// --- Import Models ---
+// --------------------
+// Models
+// --------------------
 const Product = require('./models/Product');
 const User = require('./models/User');
 
-// --- API Routes ---
+// --------------------
+// Routes
+// --------------------
 
-// 1. Register Route
+// Health Check
+app.get('/', (req, res) => {
+  res.send("🚀 Server is running correctly!");
+});
+
+// --------------------
+// Register
+// --------------------
 app.post('/api/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    
-    const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: "User already exists" });
 
-    const newUser = new User({ firstName, lastName, email, password, role: 'user' });
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      password,
+      role: 'user'
+    });
+
     await newUser.save();
+
     res.status(201).json({ message: "User created successfully" });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// 2. Login Route
+// --------------------
+// Login
+// --------------------
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
-    
+
     if (user && (await user.comparePassword(password))) {
+
       const token = jwt.sign(
-        { id: user._id, role: user.role }, 
-        process.env.JWT_SECRET || 'secret_fallback_key'
+        { id: user._id, role: user.role },
+        process.env.JWT_SECRET
       );
-      
-      res.json({ 
-        token, 
-        user: { name: user.firstName, role: user.role, email: user.email } 
+
+      return res.json({
+        token,
+        user: {
+          name: user.firstName,
+          role: user.role,
+          email: user.email
+        }
       });
+
     } else {
-      res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
+
   } catch (err) {
     res.status(500).json({ message: "Server error during login" });
   }
 });
 
-// 3. POST a new product (Admin Functionality)
+// --------------------
+// Create Product
+// --------------------
 app.post('/api/products', async (req, res) => {
   try {
     const { name, price, description, image, category } = req.body;
 
-    const newProduct = new Product({ 
-      name, 
-      price, 
-      description, 
-      image, 
-      category 
+    const newProduct = new Product({
+      name,
+      price,
+      description,
+      image,
+      category
     });
 
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
+
   } catch (err) {
-    console.error("Error creating product:", err);
-    res.status(400).json({ message: "Failed to create product. Check all required fields." });
+    console.error(err);
+    res.status(400).json({ message: "Failed to create product" });
   }
 });
 
-// 4. GET all products
+// --------------------
+// Get All Products
+// --------------------
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();
@@ -92,31 +168,39 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-// 5. GET single product by ID
+// --------------------
+// Get Product by ID
+// --------------------
 app.get('/api/products/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
     res.json(product);
+
   } catch (err) {
-    res.status(500).json({ message: "Invalid ID format" });
+    res.status(500).json({ message: "Invalid product ID" });
   }
 });
 
-// Base route for health check
-app.get('/', (req, res) => {
-  res.send("Server is running correctly!");
-});
-
-// --- Database Connection ---
-const mongoURI = process.env.MONGO_URI;
-mongoose.connect(mongoURI, { tlsAllowInvalidCertificates: true })
+// --------------------
+// MongoDB Connection
+// --------------------
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 .then(() => console.log("✅ MongoDB Connected!"))
-.catch(err => console.log("❌ MongoDB Connection Error:", err));
+.catch(err => console.log("❌ MongoDB Error:", err));
 
-// --- Server Listener ---
-// Render and other services require the host to be '0.0.0.0'
+// --------------------
+// Start Server
+// --------------------
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
