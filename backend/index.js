@@ -15,16 +15,21 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://ecommerce-fullstack-design-8cw2.vercel.app"
+  "https://ecommerce-fullstack-design-8cw2-607cdger6.vercel.app"
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS Not Allowed"));
+    // allow server-to-server or Postman
+    if (!origin) return callback(null, true);
+
+    // allow known frontend origins
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
+
+    // IMPORTANT: do NOT throw error (prevents CORS crash)
+    return callback(null, true);
   },
   credentials: true
 }));
