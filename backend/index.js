@@ -189,18 +189,16 @@ app.get('/api/products/:id', async (req, res) => {
 // --------------------
 // MongoDB Connection
 // --------------------
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log("✅ MongoDB Connected!"))
-.catch(err => console.log("❌ MongoDB Error:", err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB Connected!");
 
-// --------------------
-// Start Server
-// --------------------
-const PORT = process.env.PORT || 5000;
+    const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.log("❌ MongoDB Error:", err);
+  });
