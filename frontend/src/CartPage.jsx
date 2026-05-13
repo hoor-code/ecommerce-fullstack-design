@@ -27,7 +27,7 @@ const CartPage = () => {
                 <div key={item._id} className="flex flex-col md:flex-row gap-4 pb-5 border-b border-gray-100">
                   <div className="w-20 h-20 border border-gray-200 rounded flex-shrink-0 p-2">
                     {/* Using the server URL for the image */}
-                    <img src={`http://localhost:5000${item.image}`} className="w-full h-full object-contain" />
+                    <img src={`${import.meta.env.VITE_API_URL}${item.image}`} className="w-full h-full object-contain" />
                   </div>
                   
                   <div className="flex-1">

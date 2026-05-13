@@ -12,7 +12,7 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -35,7 +35,7 @@ const ProductDetails = () => {
   if (loading) return <div className="p-10 text-center">Loading product...</div>;
   if (!product) return <div className="p-10 text-center text-red-500">Product not found!</div>;
 
-  const mainImage = `http://localhost:5000${product.image}`;
+  const mainImage = `${import.meta.env.VITE_API_URL}${product.image}`;
 
   return (
     <div className="bg-gray-100 min-h-screen pb-10">

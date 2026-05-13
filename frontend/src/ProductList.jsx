@@ -5,7 +5,7 @@ function ProductList() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error("Error:", err));
@@ -19,7 +19,7 @@ function ProductList() {
           <div key={product._id} style={{ border: '1px solid #ddd', padding: '15px' }}>
             {/* Added full backend URL to image src */}
           <img 
-  src={`http://localhost:5000${product.image}`} 
+  src={`${import.meta.env.VITE_API_URL}${product.image}`} 
   alt={product.name} 
   style={{ width: '100%', height: '200px', objectFit: 'contain' }} 
 />

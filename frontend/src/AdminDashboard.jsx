@@ -8,7 +8,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     
-    await fetch('http://localhost:5000/api/products', {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/products`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
