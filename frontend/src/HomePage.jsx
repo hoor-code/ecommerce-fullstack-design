@@ -152,7 +152,7 @@ const HomePage = () => {
                   }}
                   className="px-4 py-3 hover:bg-blue-50 cursor-pointer flex items-center gap-4 border-b last:border-0 transition-all"
                 >
-                  <img src={`http://localhost:5000${product.image}`} alt={product.name} className="w-10 h-10 object-contain rounded" />
+                  <img src={`${import.meta.env.VITE_API_URL}${product.image}`} alt={product.name} className="w-10 h-10 object-contain rounded" />
                   <div className="flex-1">
                     <p className="text-sm font-semibold text-gray-800">{product.name}</p>
                     <p className="text-xs text-blue-600">${product.price}</p>
