@@ -12,7 +12,7 @@ import Banner from './assets/Banner.png';
 import Camera from './assets/camera.png';
 import Watch from './assets/watch.png';
 import Headphone from './assets/headphone.png';
-import Laptop from './assets/laptop.png';
+import Laptop from './assets/Laptop.png';
 import ChairImg from './assets/chair.png';
 import SofaImg from './assets/sofa.png';
 import DishImg from './assets/dishes.png';
