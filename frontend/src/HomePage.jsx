@@ -76,7 +76,7 @@ const HomePage = () => {
 
   // 2. Fetch products for Search functionality
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setAllProducts(data))
       .catch((err) => console.error("Search fetch error:", err));
