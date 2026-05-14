@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 const CartPage = () => {
   const { cartItems, removeFromCart, clearCart } = useCart();
 
-  // Dynamic Calculations
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
-  const discount = subtotal > 500 ? 60 : 0; // Example logic
-  const tax = subtotal * 0.02; // 2% Tax
+  const discount = subtotal > 500 ? 60 : 0;
+  const tax = subtotal * 0.02;
   const total = subtotal - discount + tax;
 
   return (
@@ -26,19 +25,19 @@ const CartPage = () => {
               cartItems.map((item) => (
                 <div key={item._id} className="flex flex-col md:flex-row gap-4 pb-5 border-b border-gray-100">
                   <div className="w-20 h-20 border border-gray-200 rounded flex-shrink-0 p-2">
-                    {/* Using the server URL for the image */}
+
                     <img src={`${import.meta.env.VITE_API_URL}${item.image}`} className="w-full h-full object-contain" />
                   </div>
-                  
+
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
                       <h3 className="font-medium text-gray-800">{item.name}</h3>
                       <p className="font-semibold text-gray-800">${item.price.toFixed(2)}</p>
                     </div>
                     <p className="text-sm text-gray-400 mt-1">Category: {item.category}</p>
-                    
+
                     <div className="flex gap-2 mt-3">
-                      <button 
+                      <button
                         onClick={() => removeFromCart(item._id)}
                         className="text-red-500 border border-gray-200 px-3 py-1 rounded text-xs hover:bg-red-50"
                       >
@@ -68,7 +67,6 @@ const CartPage = () => {
           </div>
         </div>
 
-        {/* Sidebar Summary */}
         <div className="w-full lg:w-80 space-y-4">
           <div className="bg-white border border-gray-200 rounded-md p-5 shadow-sm">
             <div className="space-y-2 text-gray-600 text-sm border-b pb-4">

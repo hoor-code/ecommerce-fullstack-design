@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: 'user', enum: ['user', 'admin'] }
 });
 
-// Updated Hash middleware to avoid the "next" error
 userSchema.pre('save', async function () {
   if (!this.isModified('password')) return;
   
@@ -21,7 +20,6 @@ userSchema.pre('save', async function () {
   }
 });
 
-// Helper method to compare passwords during login
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useCart } from './CartContext.jsx'; // Ensure this path matches your file structure
+import { useCart } from './CartContext.jsx';
 import FlagGER from './assets/gbr.png';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart(); // Access the dynamic add function
-  
+  const { addToCart } = useCart();
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -24,11 +24,10 @@ const ProductDetails = () => {
       });
   }, [id]);
 
-  // Handler for the Add to Cart button
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product); // Adds the specific product data to global context
-      navigate('/cart');  // Redirects the user to the Cart page
+      addToCart(product);
+      navigate('/cart');
     }
   };
 
@@ -45,8 +44,7 @@ const ProductDetails = () => {
 
       <main className="mx-4 md:mx-10 bg-white border border-gray-200 rounded-md p-5 shadow-sm">
         <div className="flex flex-col lg:flex-row gap-8">
-          
-          {/* LEFT COLUMN: IMAGES */}
+
           <div className="lg:w-1/3">
             <div className="border border-gray-200 rounded-md p-5 flex justify-center mb-4">
               <img src={mainImage} alt={product.name} className="h-80 object-contain" />
@@ -60,28 +58,25 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* MIDDLE COLUMN: INFO */}
           <div className="lg:flex-1">
             <p className={`${product.stock > 0 ? 'text-green-500' : 'text-red-500'} text-sm font-medium`}>
               {product.stock > 0 ? '✓ In stock' : 'Out of Stock'}
             </p>
             <h1 className="text-2xl font-bold text-gray-800 mt-1">{product.name}</h1>
-            
+
             <div className="flex items-center gap-4 mt-2 text-sm">
               <span className="text-orange-400">★★★★☆ 9.3</span>
               <span className="text-gray-400">32 reviews</span>
               <span className="text-gray-400">{product.stock} available</span>
             </div>
 
-            {/* DYNAMIC ADD TO CART BUTTON */}
-            <button 
+            <button
               onClick={handleAddToCart}
               className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md text-sm font-semibold hover:bg-blue-700 transition-colors"
             >
               Add to Cart
             </button>
 
-            {/* DYNAMIC PRICE SECTION */}
             <div className="grid grid-cols-3 bg-red-50 p-4 mt-4 rounded">
               <div>
                 <p className="text-red-500 font-bold">${product.price.toFixed(2)}</p>
@@ -103,7 +98,6 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: SUPPLIER INFO */}
           <div className="lg:w-64 border border-gray-200 rounded-md p-4 shadow-sm h-fit">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 bg-blue-100 rounded text-blue-400 flex items-center justify-center font-bold text-xl">

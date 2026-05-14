@@ -7,11 +7,6 @@ require('dotenv').config();
 
 const app = express();
 
-// --------------------
-// Middleware
-// --------------------
-
-// Allow only specific origins (update after Vercel deploy)
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
@@ -20,45 +15,22 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow server-to-server or Postman
     if (!origin) return callback(null, true);
-
-    // allow known frontend origins
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-
-    // IMPORTANT: do NOT throw error (prevents CORS crash)
     return callback(null, true);
   },
   credentials: true
 }));
 
 app.use(express.json());
-
-// --------------------
-// Static Assets
-// --------------------
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
-
-// --------------------
-// Models
-// --------------------
 const Product = require('./models/Product');
 const User = require('./models/User');
-
-// --------------------
-// Routes
-// --------------------
-
-// Health Check
 app.get('/', (req, res) => {
   res.send("🚀 Server is running correctly!");
 });
-
-// --------------------
-// Register
-// --------------------
 app.post('/api/register', async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -84,10 +56,6 @@ app.post('/api/register', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// --------------------
-// Login
-// --------------------
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -118,10 +86,6 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ message: "Server error during login" });
   }
 });
-
-// --------------------
-// Create Product
-// --------------------
 app.post('/api/products', async (req, res) => {
   try {
     const { name, price, description, image, category } = req.body;
@@ -142,10 +106,6 @@ app.post('/api/products', async (req, res) => {
     res.status(400).json({ message: "Failed to create product" });
   }
 });
-
-// --------------------
-// Get All Products
-// --------------------
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();
@@ -154,10 +114,6 @@ app.get('/api/products', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// --------------------
-// Get Product by ID
-// --------------------
 app.get('/api/products/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -173,16 +129,9 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
-// --------------------
-// MongoDB Connection
-// --------------------
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected!"))
   .catch(err => console.log("❌ MongoDB Error:", err));
-
-// --------------------
-// Start Server
-// --------------------
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, '0.0.0.0', () => {

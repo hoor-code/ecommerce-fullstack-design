@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// Asset Imports
 import BrandLogo from './assets/brand_logo.png';
 import ProfileIcon from './assets/ProfileIcon.png';
 import MsgIcon from './assets/MsgIcon.png';
@@ -60,13 +58,11 @@ import GooglePlay from './assets/googleplay.png';
 const HomePage = () => {
   const navigate = useNavigate();
   
-  // States
   const [query, setQuery] = useState("");
   const [allProducts, setAllProducts] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [user, setUser] = useState(null);
 
-  // 1. Auth Check (Week 3)
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
     if (loggedInUser) {
@@ -74,7 +70,6 @@ const HomePage = () => {
     }
   }, []);
 
-  // 2. Fetch products for Search functionality
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then((res) => res.json())
@@ -82,7 +77,7 @@ const HomePage = () => {
       .catch((err) => console.error("Search fetch error:", err));
   }, []);
 
-  // 3. Search Logic
+  
   useEffect(() => {
     if (query.trim() === "") {
       setFilteredResults([]);
@@ -111,13 +106,11 @@ const HomePage = () => {
 
   return (
     <div className='min-h-screen bg-gray-200'>
-      {/* TOP NAV */}
       <nav className='px-4 md:px-10 h-[95px] bg-white border-b border-gray-300 flex items-center justify-between gap-4'>
         <div className='h-20 w-32 md:w-40 flex-shrink-0'>
           <img src={BrandLogo} alt="Brand Logo" className='h-full w-full object-contain' />
         </div>
 
-        {/* SEARCH BAR SECTION */}
         <div className='flex-1 max-w-2xl hidden md:block relative'>
           <form 
             onSubmit={handleSearchSubmit}
@@ -140,7 +133,6 @@ const HomePage = () => {
             </button>
           </form>
 
-          {/* SEARCH DROPDOWN */}
           {filteredResults.length > 0 && (
             <div className="absolute z-50 w-full bg-white border border-gray-200 mt-1 rounded-md shadow-2xl max-h-80 overflow-y-auto">
               {filteredResults.map((product) => (
@@ -163,9 +155,7 @@ const HomePage = () => {
           )}
         </div>
 
-        {/* ICONS & ADMIN BUTTON */}
         <div className='flex items-center gap-2 md:gap-5 flex-shrink-0'>
-          {/* Admin Button - ONLY visible if user.role === 'admin' */}
           {user && user.role === 'admin' && (
             <Link 
               to="/admin" 
@@ -190,7 +180,6 @@ const HomePage = () => {
         </div>
       </nav>
 
-      {/* SECOND NAV */}
       <nav>
         <div className='flex items-center h-12 bg-white border-b border-gray-300 overflow-x-auto whitespace-nowrap px-4 md:px-10'>
           <ul className='flex space-x-6 text-sm font-medium text-gray-700'>
@@ -203,7 +192,6 @@ const HomePage = () => {
         </div>
       </nav>
 
-      {/* HERO SECTION */}
       <div className='my-5 mx-4 md:mx-10 p-5 bg-white flex flex-col lg:flex-row items-start justify-between gap-5 border border-gray-300 rounded-md'>
         <div className='w-full lg:w-60 flex-shrink-0 hidden lg:block'>
           <ul className='flex flex-col gap-1 cursor-pointer'>
@@ -222,7 +210,6 @@ const HomePage = () => {
           <img className='w-full h-full object-cover' src={Banner} alt="Banner" />
         </div>
 
-        {/* AUTH CARD */}
         <div className='w-full lg:w-64 flex flex-col gap-2'>
           <div className='bg-blue-100 rounded-md p-4 shadow-sm'>
             <div className='flex items-center gap-3 mb-3'>
@@ -259,7 +246,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* DEALS AND OFFERS */}
       <div className='my-5 mx-4 md:mx-10 bg-white border border-gray-200 rounded-md flex flex-col md:flex-row overflow-hidden'>
         <div className='p-6 w-full md:w-72 border-b md:border-b-0 md:border-r border-gray-200 flex-shrink-0'>
           <h3 className='text-xl font-bold text-gray-900'>Deals and offers</h3>
@@ -292,7 +278,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* HOME AND OUTDOOR */}
       <div className='my-5 mx-4 md:mx-10 bg-white border border-gray-200 rounded-md flex flex-col md:flex-row overflow-hidden'>
         <div className='relative w-full md:w-64 h-48 md:h-auto flex-shrink-0'>
           <img src={BannerImg} alt="Banner" className='w-full h-full object-cover -scale-x-100' />
@@ -323,7 +308,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* RECOMMENDED ITEMS */}
       <h2 className='font-bold ml-10 mb-2 text-[25px] mt-10'>Recommended items</h2>
       <div className='mx-4 md:mx-10 mb-10'>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4'>
@@ -350,7 +334,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* FOOTER */}
       <footer className='bg-white pt-10 border-t border-gray-200'>
         <div className='mx-4 md:mx-10 flex flex-col lg:flex-row justify-between gap-10 pb-10'>
           <div className='w-full lg:max-w-[280px]'>
