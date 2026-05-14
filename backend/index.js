@@ -1,37 +1,39 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const path = require('path');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const path = require("path");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://ecommerce-fullstack-design-8cw2-607cdger6.vercel.app"
+  "https://ecommerce-fullstack-design-8cw2-607cdger6.vercel.app",
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
       return callback(null, true);
-    }
-    return callback(null, true);
-  },
-  credentials: true
-}));
+    },
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
-const Product = require('./models/Product');
-const User = require('./models/User');
-app.get('/', (req, res) => {
+app.use("/assets", express.static(path.join(__dirname, "assets")));
+const Product = require("./models/Product");
+const User = require("./models/User");
+app.get("/", (req, res) => {
   res.send("🚀 Server is running correctly!");
 });
-app.post('/api/register', async (req, res) => {
+app.post("/api/register", async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
@@ -45,28 +47,26 @@ app.post('/api/register', async (req, res) => {
       lastName,
       email,
       password,
-      role: 'user'
+      role: "user",
     });
 
     await newUser.save();
 
     res.status(201).json({ message: "User created successfully" });
-
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
-app.post('/api/login', async (req, res) => {
+app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
     if (user && (await user.comparePassword(password))) {
-
       const token = jwt.sign(
         { id: user._id, role: user.role },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
       );
 
       return res.json({
@@ -74,19 +74,17 @@ app.post('/api/login', async (req, res) => {
         user: {
           name: user.firstName,
           role: user.role,
-          email: user.email
-        }
+          email: user.email,
+        },
       });
-
     } else {
       return res.status(401).json({ message: "Invalid email or password" });
     }
-
   } catch (err) {
     res.status(500).json({ message: "Server error during login" });
   }
 });
-app.post('/api/products', async (req, res) => {
+app.post("/api/products", async (req, res) => {
   try {
     const { name, price, description, image, category } = req.body;
 
@@ -95,18 +93,17 @@ app.post('/api/products', async (req, res) => {
       price,
       description,
       image,
-      category
+      category,
     });
 
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
-
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: "Failed to create product" });
   }
 });
-app.get('/api/products', async (req, res) => {
+app.get("/api/products", async (req, res) => {
   try {
     const products = await Product.find();
     res.json(products);
@@ -114,7 +111,7 @@ app.get('/api/products', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-app.get('/api/products/:id', async (req, res) => {
+app.get("/api/products/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
@@ -123,17 +120,17 @@ app.get('/api/products/:id', async (req, res) => {
     }
 
     res.json(product);
-
   } catch (err) {
     res.status(500).json({ message: "Invalid product ID" });
   }
 });
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Connected!"))
-  .catch(err => console.log("❌ MongoDB Error:", err));
+  .catch((err) => console.log("❌ MongoDB Error:", err));
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
